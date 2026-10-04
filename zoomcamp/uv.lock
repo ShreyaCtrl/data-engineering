@@ -1951,8 +1951,9 @@ wheels = [
 [[package]]
 name = "zoomcamp"
 version = "0.1.0"
-source = { editable = "." }
+source = { virtual = "." }
 dependencies = [
+    { name = "click" },
     { name = "pandas" },
     { name = "psycopg", extra = ["binary", "pool"] },
     { name = "sqlalchemy" },
@@ -1967,6 +1968,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
+    { name = "click", specifier = ">=8.5.0" },
     { name = "pandas", specifier = ">=3.0.6" },
     { name = "psycopg", extras = ["binary", "pool"], specifier = ">=3.3.6" },
     { name = "sqlalchemy", specifier = ">=2.1.3" },

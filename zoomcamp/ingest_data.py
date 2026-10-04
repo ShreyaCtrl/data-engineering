@@ -1,6 +1,7 @@
 import pandas as pd
 from sqlalchemy import create_engine
 from tqdm.auto import tqdm
+import click
 
 dtype = {
     "VendorID": "Int64",
@@ -37,13 +38,20 @@ parse_dates = [
 # df.head()
 # len(df)
 
-
-def ingest_data():
-    pg_user = 'root'
-    pg_password = 'root'
-    pg_host = 'localhost'
-    pg_port = 5432
-    pg_database = 'ny_taxi'
+@click.command()
+@click.option('--pg-user', default='root', help='PostgreSQL user')
+@click.option('--pg-password', default='root', help='PostgreSQL password')
+@click.option('--pg-host', default='localhost', help='PostgreSQL host')
+@click.option('--pg-port', default=5432, type=int, help='PostgreSQL port')
+@click.option('--pg-database', default='ny_taxi', help='PostgreSQL database name')
+@click.option('--target-table', default='trip_data', help='Target table name')
+def ingest_data(pg_user, pg_password, pg_host, pg_port, pg_database, target_table):
+    # pg_user = 'root'
+    # pg_password = 'root'
+    # pg_host = 'localhost'
+    # pg_port = 5432
+    # pg_database = 'ny_taxi'
+    prefix = 'https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/'
     year = 2021
     month = 1
     chunksize = 100000
@@ -63,13 +71,13 @@ def ingest_data():
         
         if i == 0:
             chunk.head(n=0).to_sql(
-                name='yellow_taxi_data', 
+                name=target_table, 
                 con=engine, 
                 if_exists='replace'
             )
 
         chunk.to_sql(
-            name="trip_data",
+            name=target_table,
             con=engine,
             if_exists="append",
             index=False
@@ -77,3 +85,5 @@ def ingest_data():
 
         print("Done")
 
+if __name__ == '__main__':
+    ingest_data()
