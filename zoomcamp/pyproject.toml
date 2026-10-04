@@ -1,0 +1,25 @@
+[project]
+name = "zoomcamp"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Shreya Parkar", email = "136149556+ShreyaCtrl@users.noreply.github.com" }
+]
+requires-python = ">=3.14"
+dependencies = [
+    "pandas>=3.0.6",
+]
+
+[project.scripts]
+zoomcamp = "zoomcamp:main"
+
+[build-system]
+requires = ["uv_build>=0.12.23,<0.13.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "jupyter>=1.1.1",
+    "pgcli>=4.7.1",
+]
